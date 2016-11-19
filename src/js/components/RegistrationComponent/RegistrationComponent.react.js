@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 import SessionActions from '../../reflux/actions/SessionActions';
 import SessionStore from '../../reflux/stores/SessionStore';
 import {TextInput, PasswordInput} from '../Inputs/ValidationInputs/ValidationInputs.react';
+import * as audio from '../../utils/mainau';
 
 class RegistrationComponent extends React.PureComponent {
     static displayName = 'RegistrationComponent';
@@ -12,7 +13,7 @@ class RegistrationComponent extends React.PureComponent {
         super(props, context);
 
         this.state = {
-            isLoginEmpty: null,
+            isEmailEmpty: null,
             isPasswordEmpty: null,
             isLicenseEmpty: null,
             savedEmail: SessionStore.enteredEmail || ''
@@ -34,29 +35,19 @@ class RegistrationComponent extends React.PureComponent {
     };
 
     register = () => {
-        const loginValue = this.refs.loginInput.refs.input.value,
-            passwordValue = this.refs.passwordInput.refs.input.value,
-            licensePlateValue = this.refs.licensePlateInput.refs.input.value;
-        let isLoginEmpty = false, isPasswordEmpty = false, isLicenseEmpty = false;
+        const loginValue = this.refs.emailInput.refs.input.value;
+        let isEmailEmpty = false;
 
         if (!loginValue || loginValue.trim() === '') {
-            isLoginEmpty = true;
+            isEmailEmpty = true;
         }
-        if (!passwordValue || passwordValue.trim() === '') {
-            isPasswordEmpty = true;
-        }
-        if (!licensePlateValue || licensePlateValue.trim() === '') {
-            isLicenseEmpty = true;
-        }
-        if (!isLoginEmpty && !isPasswordEmpty && !isLicenseEmpty) {
+        if (!isEmailEmpty) {
             SessionActions.register({
-                username: this.refs.loginInput.refs.input.value,
-                password: this.refs.passwordInput.refs.input.value,
-                licensePlate: this.refs.licensePlateInput.refs.input.value
+                email: this.refs.emailInput.refs.input.value
             });
         } else {
             console.error('Please fill all fields to register');
-            this.setState({isLoginEmpty, isPasswordEmpty, isLicenseEmpty});
+            this.setState({isEmailEmpty});
         }
     };
 
@@ -67,29 +58,50 @@ class RegistrationComponent extends React.PureComponent {
     };
 
     render() {
-        const {router} = this.context;
-        const {isLoginEmpty, isPasswordEmpty, isLicenseEmpty, savedEmail} = this.state;
+        const {isEmailEmpty, savedEmail} = this.state;
         return (
             <div onKeyDown={this.onKeyDown}>
-                <TextInput
-                    label="Логин"
-                    labelClassName={styles.caption}
-                    ref="loginInput"
-                    value={savedEmail}
-                />
-                <PasswordInput
-                    label="Пароль"
-                    labelClassName={styles.caption}
-                    ref="passwordInput"
-                />
-                <TextInput
-                    label="Регистрационный номер"
-                    labelClassName={styles.caption}
-                    ref="licensePlateInput"
-                />
-                <div className={styles.registrationButton} onClick={this.register}>
-                    Зарегистрироваться
-                </div>
+                <form action="" onSubmit={this.register}>
+                    <TextInput
+                        label="Email"
+                        type="email"
+                        required={true}
+                        labelClassName={styles.caption}
+                        ref="emailInput"
+                        value={savedEmail}
+                    />
+                    <div className="controls">
+                        <span>0123456789</span>
+                        <div
+                            className="record"
+                            onClick={(event) => {audio.toggleRecording(event, '0123456789');}}
+                        >
+                            Записать
+                        </div>
+                        <a className="save">save</a>
+                    </div>
+                    <div className="controls">
+                        <span>9876543210</span>
+                        <div
+                            className="record"
+                            onClick={(event) => {audio.toggleRecording(event, '9876543210');}}
+                        >
+                            Записать
+                        </div>
+                        <a className="save">save</a>
+                    </div>
+                    <div className="controls">
+                        <span>4958672013</span>
+                        <div
+                            className="record"
+                            onClick={(event) => {audio.toggleRecording(event, '4958672013');}}
+                        >
+                            Записать
+                        </div>
+                        <a className="save">save</a>
+                    </div>
+                    <input type="submit" value="Зарегистрироваться" className={styles.registrationButton} />
+                </form>
                 <div className={styles.loginButtonLink} onClick={() => {
                     browserHistory.push('/login');
                 }}

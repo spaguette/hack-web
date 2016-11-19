@@ -17,7 +17,7 @@
     box-sizing: border-box;
     border: 2px solid $login-button-border-color;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 20px 10px;
     font-weight: 600;
     width: 100%;
@@ -34,9 +34,9 @@
   
   .registration-button {
     box-sizing: border-box;
-    border: 2px solid $login-button-border-color;
+    border: 2px solid $login-button-text-color;
     border-radius: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 20px 10px;
     width: 100%;
     font-weight: 600;

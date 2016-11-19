@@ -3,7 +3,7 @@ import * as styles from './LoginComponent.scss';
 import SessionActions from '../../reflux/actions/SessionActions';
 import SessionStore from '../../reflux/stores/SessionStore';
 import {browserHistory} from 'react-router';
-import * as audio from './mainau';
+import * as audio from '../../utils/mainau';
 
 class LoginComponent extends React.PureComponent {
     static displayName = 'LoginComponent';
@@ -66,7 +66,7 @@ class LoginComponent extends React.PureComponent {
                 <form action="" onSubmit={this.enterApp}>
                     <div>
                         <label htmlFor="login-email-input-field" className={styles.caption}><p>E-mail</p></label>
-                        <input id="login-email-input-field" type="email" ref="emailInput" />
+                        <input id="login-email-input-field" type="email" ref="emailInput" required />
                     </div>
                     <div className={formClassName}>
                         <div id="controls">

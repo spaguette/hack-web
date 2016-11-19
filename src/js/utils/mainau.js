@@ -14,7 +14,7 @@
  */
 
 import Recorder from './recorder';
-import SessionActions from '../../reflux/actions/SessionActions';
+import SessionActions from '../reflux/actions/SessionActions';
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var audioContext = new AudioContext();
@@ -55,7 +55,7 @@ function gotBuffers(buffers) {
 }
 
 function doneEncoding(blob) {
-    SessionActions.writeBlob(currentHandler.getMsg(), blob);;
+    SessionActions.writeBlob(currentHandler.getMsg(), blob);
 }
 
 export function toggleRecording(e, msg) {

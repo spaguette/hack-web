@@ -27,7 +27,7 @@ class TextInput extends React.PureComponent {
     };
 
     render() {
-        const {labelClassName, inputClassName, label, value} = this.props;
+        const {labelClassName, inputClassName, label, value, type, required} = this.props;
         let resultClassName = null;
         if (inputClassName) {
             resultClassName = inputClassName;
@@ -41,7 +41,8 @@ class TextInput extends React.PureComponent {
                 {label ? <label className={labelClassName}><p>{label}</p></label> : null}
                 <input
                     ref="input"
-                    type="text"
+                    type={type ? type : 'text'}
+                    required={required ? required : false}
                     className={resultClassName}
                     onBlur={this.onBlur}
                     defaultValue={value}
