@@ -14,7 +14,9 @@ class LoginComponent extends React.Component {
         super(props, context);
     }
 
-    enterApp = () => {
+    enterApp = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
         SessionActions.doesEmailExist(this.refs.emailInput.value.toString());
         // SessionActions.logIn({
         //     email: this.refs.emailInput.value,
@@ -32,13 +34,13 @@ class LoginComponent extends React.Component {
         return (
             <div className={styles.loginForm} onKeyDown={this.onKeyDown}>
                 <h1 className={styles.loginCaption}>Вход в приложение</h1>
+                <form action="" onSubmit={this.enterApp}>
                 <div>
                     <label htmlFor="login-email-input-field" className={styles.caption}><p>E-mail</p></label>
-                    <input id="login-email-input-field" type="text" ref="emailInput" />
+                    <input id="login-email-input-field" type="email" ref="emailInput" />
                 </div>
-                <div className={styles.nextButton} onClick={this.enterApp}>
-                    Далее
-                </div>
+                    <input value="Далее" className={styles.nextButton} type="submit" />
+                </form>
                 <div id="viz">
                     <canvas id="analyser"></canvas>
                     <canvas id="wavedisplay"></canvas>
