@@ -6,12 +6,18 @@
 
 Для установки зависимостей (нужны права root/admin):
 
+bash:
 `script/bootstrap`
+cmd:
+`script/bootstrap.cmd`
 
 ### Для разработки
 Запуск локального сервера webpack-dev-server в режиме "hot"
 
+bash:
 `script/server`
+cmd:
+`script/server.cmd`
 
 Приложение доступно на `8081` порту ([http://localhost:8081/](http://localhost:8081/))
 
