@@ -31,7 +31,7 @@ var Recorder = function (source, cfg) {
                 e.inputBuffer.getChannelData(1)
             ]
         });
-    }
+    };
 
     this.configure = function (cfg) {
         for (var prop in cfg) {
@@ -55,7 +55,7 @@ var Recorder = function (source, cfg) {
 
     this.getBuffers = function (cb) {
         currCallback = cb || config.callback;
-        worker.postMessage({command: 'getBuffers'})
+        worker.postMessage({command: 'getBuffers'});
     };
 
     this.exportWAV = function (cb, type) {

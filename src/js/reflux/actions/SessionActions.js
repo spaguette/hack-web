@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {browserHistory} from 'react-router';
+import SessionStore from '../stores/SessionStore';
 
 const SessionActions = {
     /**
@@ -10,13 +11,28 @@ const SessionActions = {
     doesEmailExist: (email) => {
         axios.post('/api/Auth/startSession', {email: email})
              .then((response) => {
+                 SessionStore.changeEmailStatus(true);
                  console.info('user exists, go to biometric identification');
                  //use token here
              })
              .catch((response) => {
                  //notify user about an error
-                 console.error('Error while receiving response = ', response.data);
+                 if (response.status === 400) {
+                     SessionStore.changeEmailStatus(false);
+                     console.info('No such email, should register', response.data);
+                 } else {
+                     console.error('Error while checking email = ', response.data);
+                 }
              });
+    },
+    /**
+     * @function doesEmailExist
+     * @param {String} msg
+     * @param {Blob} blob
+     * @return {void}
+     * */
+    writeBlob: (msg, blob) => {
+        SessionStore.addBlob(msg, blob);
     },
     /**
      * @function logIn
