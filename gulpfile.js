@@ -24,7 +24,7 @@ var appVersion = 'dev';
  * */
 gulp.task('clean-cache', function () {
     return gulp.src(cacheDir, {read: false})
-        .pipe(clean());
+               .pipe(clean());
 });
 
 /**
@@ -32,7 +32,7 @@ gulp.task('clean-cache', function () {
  * */
 gulp.task('clean-release', function () {
     return gulp.src(releaseFolder, {read: false})
-        .pipe(clean());
+               .pipe(clean());
 });
 
 /**
@@ -40,16 +40,16 @@ gulp.task('clean-release', function () {
  * */
 gulp.task('clean-build', function () {
     return gulp.src(buildFolder, {read: false})
-        .pipe(clean());
+               .pipe(clean());
 });
 
 /**
  * Запуск команды сборки приложения
  * */
-gulp.task('webpack-build', ['clean-release'], function(callback) {
+gulp.task('webpack-build', ['clean-release'], function (callback) {
     var webpackProductionConfig = Object.assign({}, require('./webpack.config.production.js'));
     // run webpack
-    webpack(webpackProductionConfig, function(err, stats) {
+    webpack(webpackProductionConfig, function (err, stats) {
         if (err) {
             throw new gutil.PluginError('webpack-build', err);
         }
@@ -65,11 +65,11 @@ gulp.task('webpack-build', ['clean-release'], function(callback) {
  * */
 gulp.task('app-localizations', function (callback) {
     //childProcess.exec('l10ns compile', {env: process.env}, function (execError) {
-        //if (execError) {
-           // return callback(execError);
-      //  }
-        callback();
-   // });
+    //if (execError) {
+    // return callback(execError);
+    //  }
+    callback();
+    // });
 });
 
 /**
@@ -90,7 +90,7 @@ gulp.task('app-version', function (callback) {
  * */
 gulp.task('build-css', ['webpack-build'], function () {
     return gulp.src(buildFolder + '*.css')
-        .pipe(gulp.dest(releaseFolder));
+               .pipe(gulp.dest(releaseFolder));
 });
 
 /**
@@ -98,7 +98,7 @@ gulp.task('build-css', ['webpack-build'], function () {
  * */
 gulp.task('build-js', ['webpack-build'], function () {
     return gulp.src(buildFolder + '*.js')
-        .pipe(gulp.dest(releaseFolder));
+               .pipe(gulp.dest(releaseFolder));
 });
 
 /**
@@ -106,7 +106,7 @@ gulp.task('build-js', ['webpack-build'], function () {
  * */
 gulp.task('build-public', ['clean-release'], function () {
     return gulp.src('./' + releasePublicFolderName + '/**')
-        .pipe(gulp.dest(releaseFolder + releasePublicFolderName));
+               .pipe(gulp.dest(releaseFolder + releasePublicFolderName));
 });
 
 /**
@@ -114,27 +114,36 @@ gulp.task('build-public', ['clean-release'], function () {
  * */
 gulp.task('build-version', ['clean-release', 'app-version'], function () {
     return gulp.src(indexFile)
-        .pipe(htmlreplace({
-            'release-css': '/styles.css?v=' + appVersion,
-            'release-js': '/bundle.js?v=' + appVersion,
-            'version-js': {
-                src: [[appVersion.split("-")[0], appVersion]],
-                tpl: "<script type='text/javascript'>APP_VERSION = '%s'; APP_VERSION_FULL = '%s'</script>"
-            }
-        }))
-        .pipe(gulp.dest(releaseFolder));
+               .pipe(htmlreplace({
+                   'release-css': '/styles.css?v=' + appVersion,
+                   'release-js': '/bundle.js?v=' + appVersion,
+                   'version-js': {
+                       src: [[appVersion.split('-')[0], appVersion]],
+                       tpl: "<script type='text/javascript'>APP_VERSION = '%s'; APP_VERSION_FULL = '%s'</script>"}}))
+    .pipe(gulp.dest(releaseFolder));
 });
 
 /**
  * Удаление папки build
  * Сборка production версии
  * */
-gulp.task('build:release', ['build-css', 'build-js', 'app-localizations', 'build-public', 'build-version'], function () {
+gulp.task('build:release', [
+    'build-css',
+    'build-js',
+    'app-localizations',
+    'build-public',
+    'build-version'
+], function () {
     return gulp.src(buildFolder, {read: false})
-        .pipe(clean());
+               .pipe(clean());
 });
 
-gulp.task('webpack-dev-server', ['clean-build', 'app-localizations', 'clean-release', 'clean-cache'], function(callback) {
+gulp.task('webpack-dev-server', [
+    'clean-build',
+    'app-localizations',
+    'clean-release',
+    'clean-cache'
+], function (callback) {
     var webpackDevConfig = Object.assign({}, require('./webpack.config.dev.js'));
     var compiler = webpack(webpackDevConfig);
 
@@ -142,8 +151,8 @@ gulp.task('webpack-dev-server', ['clean-build', 'app-localizations', 'clean-rele
         publicPath: webpackDevConfig.output.publicPath,
         hot: true,
         historyApiFallback: true,
-        headers: { 'X-Custom-Header': 'yes' },
-        stats: { colors: true },
+        headers: {'X-Custom-Header': 'yes'},
+        stats: {colors: true},
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000
@@ -152,7 +161,7 @@ gulp.task('webpack-dev-server', ['clean-build', 'app-localizations', 'clean-rele
             '/gelf': 'http://127.0.0.1:12201',
             '/api/*': 'http://127.0.0.1:8080'
         }
-    }).listen(webpackDevConfig.serverPort, webpackDevConfig.serverHost, function(err) {
+    }).listen(webpackDevConfig.serverPort, webpackDevConfig.serverHost, function (err) {
         if (err) {
             throw new gutil.PluginError('webpack-dev-server', err);
         }
