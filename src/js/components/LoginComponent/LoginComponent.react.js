@@ -10,11 +10,14 @@ class LoginComponent extends React.Component {
         super(props, context);
     }
 
-    login = () => {
-        SessionActions.logIn({
-            username: this.refs.loginInput.value,
-            password: this.refs.passwordInput.value
+    enterApp = () => {
+        SessionActions.doesEmailExist({
+            email: this.refs.emailInput.value
         });
+        // SessionActions.logIn({
+        //     email: this.refs.emailInput.value,
+        //     password: this.refs.passwordInput.value
+        // });
     };
 
     onKeyDown = (event) => {
@@ -26,22 +29,13 @@ class LoginComponent extends React.Component {
     render() {
         return (
             <div className={styles.loginForm} onKeyDown={this.onKeyDown}>
+                <h1 className={styles.loginCaption}>Вход в приложение</h1>
                 <div>
-                    <label htmlFor="login-username-input-field" className={styles.caption}><p>Логин</p></label>
-                    <input id="login-username-input-field" type="text" ref="loginInput" />
+                    <label htmlFor="login-email-input-field" className={styles.caption}><p>E-mail</p></label>
+                    <input id="login-email-input-field" type="text" ref="emailInput" />
                 </div>
-                <div>
-                    <label htmlFor="login-password-input-field" className={styles.caption}><p>Пароль</p></label>
-                    <input id="login-password-input-field" type="password" ref="passwordInput" />
-                </div>
-                <div className={styles.loginButton} onClick={this.login}>
-                    Войти
-                </div>
-                <div className={styles.registrationButtonLink} onClick={() => {
-                    browserHistory.push('/registration');
-                }}
-                >
-                    Создать аккаунт
+                <div className={styles.nextButton} onClick={this.enterApp}>
+                    Далее
                 </div>
             </div>
         );

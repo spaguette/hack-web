@@ -11,11 +11,12 @@
     }
   }
   
-  .caption {
-    text-align: center;
+  .login-caption {
+    font-weight: 400;
+    margin: 0 0 50px 0;
   }
   
-  .login-button {
+  .next-button {
     box-sizing: border-box;
     border: 2px solid $login-button-border;
     border-radius: 2px;
@@ -27,11 +28,15 @@
     font-size: 16pt;
     color: $login-button-text-color;
     background: $login-button-background-color;
-    
+  
     &:hover {
       background: darken($login-button-background-color, 5%);
       cursor: pointer;
     }
+  }
+  
+  .caption {
+    text-align: center;
   }
   
   .registration-button-link {
