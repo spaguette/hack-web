@@ -1,0 +1,14 @@
+:local {
+  $outline-color: red;
+  
+  .input-container,
+  %input-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .input-container-invalid {
+    @extend %input-container;
+    outline: 1px solid $outline-color;
+  }
+}

@@ -1,0 +1,55 @@
+:local {
+  $login-button-border: white;
+  $login-button-text-color: rgb(25, 34, 41);
+  $login-button-background-color: rgb(238, 238, 238);
+  $register-button-hover-color: rgb(54, 71, 83);
+  
+  .login-form {
+    input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  
+  .caption {
+    text-align: center;
+  }
+  
+  .login-button {
+    box-sizing: border-box;
+    border: 2px solid $login-button-border;
+    border-radius: 2px;
+    margin: 20px 0;
+    padding: 20px 10px;
+    width: 100%;
+    font-weight: 600;
+    text-align: center;
+    font-size: 16pt;
+    color: $login-button-text-color;
+    background: $login-button-background-color;
+    
+    &:hover {
+      background: darken($login-button-background-color, 5%);
+      cursor: pointer;
+    }
+  }
+  
+  .registration-button-link {
+    box-sizing: border-box;
+    border: 2px solid $login-button-border;
+    border-radius: 2px;
+    margin: 20px 0;
+    padding: 20px 10px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    color: $login-button-background-color;
+    background: $login-button-text-color;
+    
+    &:hover {
+      background: darken($register-button-hover-color, 5%);
+      cursor: pointer;
+    }
+  }
+}
