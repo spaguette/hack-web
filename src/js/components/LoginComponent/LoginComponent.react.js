@@ -11,9 +11,7 @@ class LoginComponent extends React.Component {
     }
 
     enterApp = () => {
-        SessionActions.doesEmailExist({
-            email: this.refs.emailInput.value
-        });
+        SessionActions.doesEmailExist(this.refs.emailInput.value.toString());
         // SessionActions.logIn({
         //     email: this.refs.emailInput.value,
         //     password: this.refs.passwordInput.value
@@ -22,7 +20,7 @@ class LoginComponent extends React.Component {
 
     onKeyDown = (event) => {
         if (event.keyCode === 13) {
-            this.login();
+            this.enterApp();
         }
     };
 

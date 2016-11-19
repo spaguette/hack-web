@@ -3,6 +3,22 @@ import {browserHistory} from 'react-router';
 
 const SessionActions = {
     /**
+     * @function doesEmailExist
+     * @param {String} email
+     * @return {void}
+     * */
+    doesEmailExist: (email) => {
+        axios.post('/api/Auth/checkIfExists', {email: email})
+             .then((response) => {
+                 console.info('user exists, go to biometric identification');
+                 //use token here
+             })
+             .catch((response) => {
+                 //notify user about an error
+                 console.error('Error while receiving response = ', response.data);
+             });
+    },
+    /**
      * @function logIn
      * @param {Object} authInfo
      * @return {void}

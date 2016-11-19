@@ -1,2 +1,1 @@
-echo 'Starting dev-web-server'
-npm start
+echo 'Starting dev-web-server' && npm start
