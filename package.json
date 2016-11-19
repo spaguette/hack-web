@@ -24,10 +24,8 @@
     "babel-preset-react": "6.5.0",
     "babel-preset-stage-0": "6.5.0",
     "babel-register": "6.9.0",
-    "body-parser": "1.14.1",
     "css-loader": "0.23.1",
     "es6-promise": "3.0.2",
-    "express": "4.14.0",
     "flux": "2.1.1",
     "gulp": "3.9.0",
     "gulp-html-replace": "1.5.4",
@@ -46,7 +44,6 @@
     "react-router": "2.8.1",
     "sass-loader": "3.2.1",
     "style-loader": "0.13.1",
-    "webfontloader": "1.6.24",
     "webpack": "1.13.1",
     "webpack-dev-server": "1.14.1",
     "worker-loader": "^0.7.1"
