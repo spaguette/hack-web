@@ -18,6 +18,7 @@ class LoginComponent extends React.PureComponent {
 
     componentDidMount() {
         SessionStore.addEmailStatusChangeListener(this.toggleRegistrationForm);
+        this.refs.emailInput.value = SessionStore.enteredEmail;
     }
 
     componentWillUnmount() {
@@ -25,7 +26,11 @@ class LoginComponent extends React.PureComponent {
     }
 
     toggleRegistrationForm = () => {
-        this.setState({emailExists: SessionStore.emailExists});
+        if (SessionStore.emailExists === false) { //если email не зарегистрирован - нужно регистрироваться
+            browserHistory.push('/registration');
+        } else {
+            this.setState({emailExists: SessionStore.emailExists});
+        }
     };
 
     enterApp = (event) => {
@@ -47,16 +52,12 @@ class LoginComponent extends React.PureComponent {
     render() {
         const {emailExists} = this.state;
         let formClassName, submitButtonText;
-        //email еще не отправляли на сервер
-        if (emailExists === null) {
+        if (!emailExists) { //email еще не отправляли на сервер или он не зарегистрирован
             formClassName = styles.hidden;
             submitButtonText = 'Далее';
-        } else if (emailExists === true) {
+        } else if (emailExists === true) { //email зарегистрирован
             formClassName = styles.authForm;
             submitButtonText = 'Войти';
-        } else if (emailExists === false) {
-            formClassName = styles.hidden; //заглушка
-            submitButtonText = 'Зарегистироваться';
         }
 
         return (

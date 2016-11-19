@@ -2,6 +2,7 @@ import React from 'react';
 import * as styles from './RegistrationComponent.scss';
 import {browserHistory} from 'react-router';
 import SessionActions from '../../reflux/actions/SessionActions';
+import SessionStore from '../../reflux/stores/SessionStore';
 import {TextInput, PasswordInput} from '../Inputs/ValidationInputs/ValidationInputs.react';
 
 class RegistrationComponent extends React.PureComponent {
@@ -13,7 +14,8 @@ class RegistrationComponent extends React.PureComponent {
         this.state = {
             isLoginEmpty: null,
             isPasswordEmpty: null,
-            isLicenseEmpty: null
+            isLicenseEmpty: null,
+            savedEmail: SessionStore.enteredEmail || ''
         };
     }
 
@@ -66,13 +68,14 @@ class RegistrationComponent extends React.PureComponent {
 
     render() {
         const {router} = this.context;
-        const {isLoginEmpty, isPasswordEmpty, isLicenseEmpty} = this.state;
+        const {isLoginEmpty, isPasswordEmpty, isLicenseEmpty, savedEmail} = this.state;
         return (
             <div onKeyDown={this.onKeyDown}>
                 <TextInput
                     label="Логин"
                     labelClassName={styles.caption}
                     ref="loginInput"
+                    value={savedEmail}
                 />
                 <PasswordInput
                     label="Пароль"

@@ -18,7 +18,7 @@
   
   .next-button {
     box-sizing: border-box;
-    border: 2px solid $login-button-border;
+    border: 2px solid $login-button-background-color;
     border-radius: 2px;
     margin: 20px 0;
     padding: 20px 10px;
@@ -31,6 +31,7 @@
   
     &:hover {
       background: darken($login-button-background-color, 5%);
+      border: 2px solid darken($login-button-background-color, 5%);
       cursor: pointer;
     }
   }

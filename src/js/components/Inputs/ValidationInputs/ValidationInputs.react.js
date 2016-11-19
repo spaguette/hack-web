@@ -14,7 +14,8 @@ class TextInput extends React.PureComponent {
 
     static propTypes = {
         labelClassName: React.PropTypes.string,
-        inputClassName: React.PropTypes.string
+        inputClassName: React.PropTypes.string,
+        value: React.PropTypes.string
     };
 
     onBlur = (event) => {
@@ -26,7 +27,7 @@ class TextInput extends React.PureComponent {
     };
 
     render() {
-        const {labelClassName, inputClassName, label} = this.props;
+        const {labelClassName, inputClassName, label, value} = this.props;
         let resultClassName = null;
         if (inputClassName) {
             resultClassName = inputClassName;
@@ -43,6 +44,7 @@ class TextInput extends React.PureComponent {
                     type="text"
                     className={resultClassName}
                     onBlur={this.onBlur}
+                    defaultValue={value}
                 />
             </div>
         );

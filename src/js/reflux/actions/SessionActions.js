@@ -9,6 +9,7 @@ const SessionActions = {
      * @return {void}
      * */
     doesEmailExist: (email) => {
+        SessionStore.setEnteredEmail(email);
         axios.post('/api/Auth/startSession', {email: email})
              .then((response) => {
                  SessionStore.changeEmailStatus(true);
@@ -21,6 +22,7 @@ const SessionActions = {
                      SessionStore.changeEmailStatus(false);
                      console.info('No such email, should register', response.data);
                  } else {
+                     SessionStore.changeEmailStatus(false); //заглушка
                      console.error('Error while checking email = ', response.data);
                  }
              });

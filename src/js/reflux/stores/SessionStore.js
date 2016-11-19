@@ -6,6 +6,7 @@ var EMAIL_STATUS_CHANGE = 'EMAIL_STATUS_CHANGE';
 const SessionStore = assign({}, EventEmitter.prototype, {
     audioSamples: null,
     emailExists: null,
+    enteredEmail: null,
 
     emitAudioSamplesChange: function () {
         this.emit(AUDIO_CHANGE);
@@ -38,6 +39,10 @@ const SessionStore = assign({}, EventEmitter.prototype, {
     changeEmailStatus(bool) {
         this.emailExists = bool;
         this.emitEmailStatusChange();
+    },
+
+    setEnteredEmail(email) {
+        this.enteredEmail = email;
     },
 
     /**
