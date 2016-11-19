@@ -1,7 +1,11 @@
 import React from 'react';
 import * as styles from './LoginComponent.scss';
 import SessionActions from '../../reflux/actions/SessionActions';
+import Recorder from './recorder';
 import {browserHistory} from 'react-router';
+import * as audio from './mainau';
+
+let recorder, audioContext;
 
 class LoginComponent extends React.Component {
     static displayName = 'LoginComponent';
@@ -34,6 +38,14 @@ class LoginComponent extends React.Component {
                 </div>
                 <div className={styles.nextButton} onClick={this.enterApp}>
                     Далее
+                </div>
+                <div id="viz">
+                    <canvas id="analyser"></canvas>
+                    <canvas id="wavedisplay"></canvas>
+                </div>
+                <div id="controls">
+                    <img id="record" width="50" onClick={audio.toggleRecording} />
+                    <a id="save">save</a>
                 </div>
             </div>
         );

@@ -8,7 +8,7 @@ const SessionActions = {
      * @return {void}
      * */
     doesEmailExist: (email) => {
-        axios.post('/api/Auth/checkIfExists', {email: email})
+        axios.post('/api/Auth/startSession', {email: email})
              .then((response) => {
                  console.info('user exists, go to biometric identification');
                  //use token here

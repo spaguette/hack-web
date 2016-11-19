@@ -159,7 +159,7 @@ gulp.task('webpack-dev-server', [
         },
         proxy: {
             '/gelf': 'http://127.0.0.1:12201',
-            '/api/*': 'http://127.0.0.1:8080'
+            '/api/*': 'http://127.0.0.1:50620'
         }
     }).listen(webpackDevConfig.serverPort, webpackDevConfig.serverHost, function (err) {
         if (err) {

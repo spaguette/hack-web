@@ -48,6 +48,7 @@
     "style-loader": "0.13.1",
     "webfontloader": "1.6.24",
     "webpack": "1.13.1",
-    "webpack-dev-server": "1.14.1"
+    "webpack-dev-server": "1.14.1",
+    "worker-loader": "^0.7.1"
   }
 }
