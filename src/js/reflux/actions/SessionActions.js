@@ -64,7 +64,8 @@ const SessionActions = {
     registerAudioSample: (email, voiceSample) => {
         axios.post('/api/Auth/addVoiceModel', {email: email, voiceSample: voiceSample})
              .then((response) => {
-                 SessionStore.setNextVoiceEntry(response.data);
+                 SessionStore.setNextVoiceEntry(response.data.password);
+                 SessionStore.setNeededEntriesCount(response.data.count);
              })
              .catch((response) => {
                  //notify user about an error

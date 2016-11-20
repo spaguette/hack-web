@@ -16,6 +16,7 @@ class RegistrationComponent extends React.PureComponent {
             isEmailEmpty: null,
             voiceEntry: SessionStore.nextVoiceEntry,
             voiceRejected: SessionStore.isVoiceSampleRejected,
+            readyToRegister: SessionStore.isReadyToRegister,
             savedEmail: SessionStore.enteredEmail || ''
         };
     }
@@ -23,7 +24,7 @@ class RegistrationComponent extends React.PureComponent {
     componentDidMount() {
         SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
         SessionStore.addNextVoiceEntryChangeListener(this.setNextVoiceEntry);
-        SessionStore.addReadyToRegisterChangeListener(this.sendAudioSample);
+        SessionStore.addReadyToRegisterChangeListener(this.setReadyToRegisterStatus);
         SessionStore.addVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
         // SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
     }
@@ -32,6 +33,10 @@ class RegistrationComponent extends React.PureComponent {
         if (SessionStore.audioSamples !== null) {
             SessionActions.registerAudioSample(this.refs.emailInput.refs.input.value, SessionStore.audioSamples);
         }
+    };
+
+    setReadyToRegisterStatus = () => {
+        this.setState({readyToRegister: SessionStore.isReadyToRegister});
     };
 
     setNextVoiceEntry = () => {
@@ -45,14 +50,14 @@ class RegistrationComponent extends React.PureComponent {
     componentWillUnmount() {
         SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
         SessionStore.removeNextVoiceEntryChangeListener(this.setNextVoiceEntry);
-        SessionStore.removeReadyToRegisterChangeListener(this.sendAudioSample);
+        SessionStore.removeReadyToRegisterChangeListener(this.setReadyToRegisterStatus);
         SessionStore.removeVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
         // SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
     }
 
     register = (event) => {
         event.preventDefault();
-        // SessionActions.registerAudioSample();
+        alert('Congraturations! The winrar is you!');
     };
 
     onKeyDown = (event) => {
@@ -62,7 +67,7 @@ class RegistrationComponent extends React.PureComponent {
     };
 
     render() {
-        const {isEmailEmpty, savedEmail, voiceEntry, voiceRejected} = this.state;
+        const {isEmailEmpty, savedEmail, voiceEntry, voiceRejected, readyToRegister} = this.state;
         return (
             <div onKeyDown={this.onKeyDown}>
                 <form action="" onSubmit={this.register}>
@@ -84,7 +89,12 @@ class RegistrationComponent extends React.PureComponent {
                         </div>
                     </div>
                     {voiceRejected ? <div className={styles.message}>Необходимо перезаписать</div> : null}
-                    <input disabled={!SessionStore.isReadyToRegister} type="submit" value="Зарегистрироваться" className={styles.registrationButton} />
+                    <input
+                        disabled={!readyToRegister}
+                        type="submit"
+                        value="Зарегистрироваться"
+                        className={styles.registrationButton}
+                    />
                 </form>
                 <div className={styles.loginButtonLink} onClick={() => {
                     browserHistory.push('/login');

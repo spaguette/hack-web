@@ -90,6 +90,14 @@ const SessionStore = assign({}, EventEmitter.prototype, {
         this.emitNextVoiceEntryChange();
     },
 
+    setNeededEntriesCount: function (count) {
+        this.neededCount = count;
+        if (count <= 0) {
+            this.isReadyToRegister = true;
+            this.emitReadyToRegisterChange();
+        }
+    },
+
     changeEmailStatus(bool) {
         this.emailExists = bool;
         this.emitEmailStatusChange();
