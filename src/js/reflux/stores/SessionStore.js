@@ -33,8 +33,14 @@ const SessionStore = assign({}, EventEmitter.prototype, {
     addBlob: function (msg, blob) {
         if (!this.audioSamples) { this.audioSamples = {}; }
         this.audioSamples.password = msg;
-        this.audioSamples.data = blob;
-        this.emitAudioSamplesChange();
+        var reader = new window.FileReader();
+        reader.readAsDataURL(blob);
+        let base64data;
+        reader.onloadend = () => {
+            base64data = reader.result;
+            this.audioSamples.data = base64data;
+            this.emitAudioSamplesChange();
+        };
     },
 
     changeEmailStatus(bool) {

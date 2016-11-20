@@ -94,7 +94,6 @@ class RegistrationComponent extends React.PureComponent {
                         >
                             Записать
                         </div>
-                        <a className="save">save</a>
                     </div>
                     <div className="controls">
                         <span>9876543210</span>
@@ -104,7 +103,6 @@ class RegistrationComponent extends React.PureComponent {
                         >
                             Записать
                         </div>
-                        <a className="save">save</a>
                     </div>
                     <div className="controls">
                         <span>4958672013</span>
@@ -114,7 +112,6 @@ class RegistrationComponent extends React.PureComponent {
                         >
                             Записать
                         </div>
-                        <a className="save">save</a>
                     </div>
                     <input type="submit" value="Зарегистрироваться" className={styles.registrationButton} />
                 </form>
