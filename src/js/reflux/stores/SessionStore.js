@@ -2,18 +2,32 @@ import EventEmitter from 'events';
 import assign from 'object-assign';
 var AUDIO_CHANGE = 'AUDIO_CHANGE';
 var EMAIL_STATUS_CHANGE = 'EMAIL_STATUS_CHANGE';
+var READY_TO_REGISTER_CHANGE = 'READY_TO_REGISTER_CHANGE';
+var NEXT_VOICE_ENTRY_CHANGE = 'NEXT_VOICE_ENTRY_CHANGE';
+var IS_VOICE_SAMPLE_REJECTED_CHANGE = 'IS_VOICE_SAMPLE_REJECTED_CHANGE';
 
 const SessionStore = assign({}, EventEmitter.prototype, {
     audioSamples: null,
     emailExists: null,
     enteredEmail: null,
+    isVoiceSampleRejected: false,
+    nextVoiceEntry: '0123456789',
+    isReadyToRegister: false,
 
     emitAudioSamplesChange: function () {
         this.emit(AUDIO_CHANGE);
     },
 
-    emitEmailStatusChange: function () {
-        this.emit(EMAIL_STATUS_CHANGE);
+    emitReadyToRegisterChange: function () {
+        this.emit(READY_TO_REGISTER_CHANGE);
+    },
+
+    emitNextVoiceEntryChange: function () {
+        this.emit(NEXT_VOICE_ENTRY_CHANGE);
+    },
+
+    emitVoiceSampleRejectedChange: function () {
+        this.emit(IS_VOICE_SAMPLE_REJECTED_CHANGE);
     },
 
     /**
@@ -21,6 +35,27 @@ const SessionStore = assign({}, EventEmitter.prototype, {
      */
     addAudioSamplesChangeListener: function (callback) {
         this.on(AUDIO_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    addReadyToRegisterChangeListener: function (callback) {
+        this.on(READY_TO_REGISTER_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    addNextVoiceEntryChangeListener: function (callback) {
+        this.on(NEXT_VOICE_ENTRY_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    addVoiceSampleRejectedChangeListener: function (callback) {
+        this.on(IS_VOICE_SAMPLE_REJECTED_CHANGE, callback);
     },
 
     /**
@@ -43,6 +78,18 @@ const SessionStore = assign({}, EventEmitter.prototype, {
         };
     },
 
+    rejectVoiceSample: function () {
+        this.isVoiceSampleRejected = true;
+        this.emitVoiceSampleRejectedChange();
+    },
+
+    setNextVoiceEntry: function (entry) {
+        this.nextVoiceEntry = entry;
+        this.isVoiceSampleRejected = false;
+        this.emitVoiceSampleRejectedChange();
+        this.emitNextVoiceEntryChange();
+    },
+
     changeEmailStatus(bool) {
         this.emailExists = bool;
         this.emitEmailStatusChange();
@@ -57,6 +104,27 @@ const SessionStore = assign({}, EventEmitter.prototype, {
      */
     removeAudioSamplesChangeListener: function (callback) {
         this.removeListener(AUDIO_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    removeNextVoiceEntryChangeListener: function (callback) {
+        this.removeListener(NEXT_VOICE_ENTRY_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    removeReadyToRegisterChangeListener: function (callback) {
+        this.removeListener(READY_TO_REGISTER_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    removeVoiceSampleRejectedChangeListener: function (callback) {
+        this.removeListener(IS_VOICE_SAMPLE_REJECTED_CHANGE, callback);
     },
 
     /**

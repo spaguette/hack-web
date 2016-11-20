@@ -64,10 +64,11 @@ const SessionActions = {
     registerAudioSample: (email, voiceSample) => {
         axios.post('/api/Auth/addVoiceModel', {email: email, voiceSample: voiceSample})
              .then((response) => {
-                 browserHistory.push('/reservation');
+                 SessionStore.setNextVoiceEntry(response.data);
              })
              .catch((response) => {
                  //notify user about an error
+                 SessionStore.rejectVoiceSample();
                  console.error('Error while receiving response = ', response.data);
              });
     },

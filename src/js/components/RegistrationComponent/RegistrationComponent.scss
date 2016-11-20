@@ -32,6 +32,16 @@
     }
   }
   
+  .voice-tip {
+    font-size: 10pt;
+  }
+  
+  .message {
+    margin: 10px 0;
+    text-align: center;
+    color: #ff2845;
+  }
+  
   .registration-button {
     box-sizing: border-box;
     border: 2px solid $login-button-text-color;
@@ -48,6 +58,13 @@
     &:hover {
       background: darken($login-button-text-color, 5%);
       cursor: pointer;
+    }
+    
+    &:disabled {
+      cursor: auto;
+      background: $login-button-text-color;
+      opacity: 0.7;
+      color: lighten($login-button-background-color, 30%);
     }
   }
 }

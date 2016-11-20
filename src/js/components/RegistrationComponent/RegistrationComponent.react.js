@@ -14,14 +14,18 @@ class RegistrationComponent extends React.PureComponent {
 
         this.state = {
             isEmailEmpty: null,
-            isPasswordEmpty: null,
-            isLicenseEmpty: null,
+            voiceEntry: SessionStore.nextVoiceEntry,
+            voiceRejected: SessionStore.isVoiceSampleRejected,
             savedEmail: SessionStore.enteredEmail || ''
         };
     }
 
     componentDidMount() {
         SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
+        SessionStore.addNextVoiceEntryChangeListener(this.setNextVoiceEntry);
+        SessionStore.addReadyToRegisterChangeListener(this.sendAudioSample);
+        SessionStore.addVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
+        // SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
     }
 
     sendAudioSample = () => {
@@ -30,51 +34,35 @@ class RegistrationComponent extends React.PureComponent {
         }
     };
 
+    setNextVoiceEntry = () => {
+        this.setState({voiceEntry: SessionStore.nextVoiceEntry});
+    };
+
+    forceUserToRecordAgain = () => {
+        this.setState({voiceRejected: SessionStore.isVoiceSampleRejected});
+    };
+
     componentWillUnmount() {
         SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
+        SessionStore.removeNextVoiceEntryChangeListener(this.setNextVoiceEntry);
+        SessionStore.removeReadyToRegisterChangeListener(this.sendAudioSample);
+        SessionStore.removeVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
+        // SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
     }
-
-    validate = (name, event) => {
-        const value = event.target.value;
-        switch (name) {
-            case 'login':
-                break;
-            case 'password':
-                break;
-            case 'license':
-                break;
-            default:
-                break;
-        }
-    };
 
     register = (event) => {
         event.preventDefault();
-        SessionActions.registerAudioSample();
-        // const loginValue = this.refs.emailInput.refs.input.value;
-        // let isEmailEmpty = false;
-        //
-        // if (!loginValue || loginValue.trim() === '') {
-        //     isEmailEmpty = true;
-        // }
-        // if (!isEmailEmpty) {
-        //     SessionActions.register({
-        //         email: this.refs.emailInput.refs.input.value
-        //     });
-        // } else {
-        //     console.error('Please fill all fields to register');
-        //     this.setState({isEmailEmpty});
-        // }
+        // SessionActions.registerAudioSample();
     };
 
     onKeyDown = (event) => {
         if (event.keyCode === 13) {
-            this.register();
+            this.register(event);
         }
     };
 
     render() {
-        const {isEmailEmpty, savedEmail} = this.state;
+        const {isEmailEmpty, savedEmail, voiceEntry, voiceRejected} = this.state;
         return (
             <div onKeyDown={this.onKeyDown}>
                 <form action="" onSubmit={this.register}>
@@ -87,33 +75,16 @@ class RegistrationComponent extends React.PureComponent {
                         value={savedEmail}
                     />
                     <div className="controls">
-                        <span>0123456789</span>
+                        <span className={styles.voiceTip}>Скажите {voiceEntry}</span>
                         <div
                             className="record"
-                            onClick={(event) => {audio.toggleRecording(event, '0123456789');}}
+                            onClick={(event) => {audio.toggleRecording(event, voiceEntry);}}
                         >
                             Записать
                         </div>
                     </div>
-                    <div className="controls">
-                        <span>9876543210</span>
-                        <div
-                            className="record"
-                            onClick={(event) => {audio.toggleRecording(event, '9876543210');}}
-                        >
-                            Записать
-                        </div>
-                    </div>
-                    <div className="controls">
-                        <span>4958672013</span>
-                        <div
-                            className="record"
-                            onClick={(event) => {audio.toggleRecording(event, '4958672013');}}
-                        >
-                            Записать
-                        </div>
-                    </div>
-                    <input type="submit" value="Зарегистрироваться" className={styles.registrationButton} />
+                    {voiceRejected ? <div className={styles.message}>Необходимо перезаписать</div> : null}
+                    <input disabled={!SessionStore.isReadyToRegister} type="submit" value="Зарегистрироваться" className={styles.registrationButton} />
                 </form>
                 <div className={styles.loginButtonLink} onClick={() => {
                     browserHistory.push('/login');
