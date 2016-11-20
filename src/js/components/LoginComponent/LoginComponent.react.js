@@ -2,11 +2,18 @@ import React from 'react';
 import * as styles from './LoginComponent.scss';
 import SessionActions from '../../reflux/actions/SessionActions';
 import SessionStore from '../../reflux/stores/SessionStore';
+import NotificationsStore from '../../reflux/stores/NotificationsStore';
 import {browserHistory} from 'react-router';
+import NotificationSystem from 'react-notification-system';
 import * as audio from '../../utils/mainau';
 
 class LoginComponent extends React.PureComponent {
     static displayName = 'LoginComponent';
+    _notificationSystem = null;
+
+    _addNotification = () => {
+        this._notificationSystem.addNotification(NotificationsStore.notification);
+    };
 
     constructor(props, context) {
         super(props, context);
@@ -17,12 +24,15 @@ class LoginComponent extends React.PureComponent {
     }
 
     componentDidMount() {
-        SessionStore.addEmailStatusChangeListener(this.toggleRegistrationForm);
         this.refs.emailInput.value = SessionStore.enteredEmail;
+        this._notificationSystem = this.refs.notificationSystem;
+        SessionStore.addEmailStatusChangeListener(this.toggleRegistrationForm);
+        NotificationsStore.addNotificationChangeListener(this._addNotification);
     }
 
     componentWillUnmount() {
         SessionStore.removeEmailStatusChangeListener(this.toggleRegistrationForm);
+        NotificationsStore.removeNotificationChangeListener(this._addNotification);
     }
 
     toggleRegistrationForm = () => {
@@ -62,6 +72,7 @@ class LoginComponent extends React.PureComponent {
 
         return (
             <div className={styles.loginForm} onKeyDown={this.onKeyDown}>
+                <NotificationSystem ref="notificationSystem" />
                 <h1 className={styles.loginCaption}>Вход в приложение</h1>
                 <form action="" onSubmit={this.enterApp}>
                     <div>

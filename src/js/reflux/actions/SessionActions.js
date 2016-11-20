@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {browserHistory} from 'react-router';
 import SessionStore from '../stores/SessionStore';
+import NotificationsStore from '../stores/NotificationsStore';
 
 const SessionActions = {
     /**
@@ -23,6 +24,7 @@ const SessionActions = {
                      console.info('No such email, should register', response.data);
                  } else {
                      SessionStore.changeEmailStatus(false); //заглушка
+                     NotificationsStore.replaceNotification('Внутренняя ошибка сервера', 'error');
                      console.error('Error while checking email = ', response.data);
                  }
              });
