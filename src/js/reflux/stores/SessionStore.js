@@ -5,6 +5,7 @@ var EMAIL_STATUS_CHANGE = 'EMAIL_STATUS_CHANGE';
 var READY_TO_REGISTER_CHANGE = 'READY_TO_REGISTER_CHANGE';
 var NEXT_VOICE_ENTRY_CHANGE = 'NEXT_VOICE_ENTRY_CHANGE';
 var IS_VOICE_SAMPLE_REJECTED_CHANGE = 'IS_VOICE_SAMPLE_REJECTED_CHANGE';
+var COUNTER_CHANGE = 'COUNTER_CHANGE';
 
 const SessionStore = assign({}, EventEmitter.prototype, {
     audioSamples: null,
@@ -13,6 +14,7 @@ const SessionStore = assign({}, EventEmitter.prototype, {
     isVoiceSampleRejected: false,
     nextVoiceEntry: '0123456789',
     isReadyToRegister: false,
+    counter: null,
 
     emitAudioSamplesChange: function () {
         this.emit(AUDIO_CHANGE);
@@ -28,6 +30,14 @@ const SessionStore = assign({}, EventEmitter.prototype, {
 
     emitVoiceSampleRejectedChange: function () {
         this.emit(IS_VOICE_SAMPLE_REJECTED_CHANGE);
+    },
+
+    emitEmailStatusChange: function () {
+        this.emit(EMAIL_STATUS_CHANGE);
+    },
+
+    emitCounterChange: function () {
+        this.emit(COUNTER_CHANGE);
     },
 
     /**
@@ -65,6 +75,13 @@ const SessionStore = assign({}, EventEmitter.prototype, {
         this.on(EMAIL_STATUS_CHANGE, callback);
     },
 
+    /**
+     * @param {function} callback
+     */
+    addCounterChangeListener: function (callback) {
+        this.on(COUNTER_CHANGE, callback);
+    },
+
     addBlob: function (msg, blob) {
         if (!this.audioSamples) { this.audioSamples = {}; }
         this.audioSamples.password = msg;
@@ -91,7 +108,8 @@ const SessionStore = assign({}, EventEmitter.prototype, {
     },
 
     setNeededEntriesCount: function (count) {
-        this.neededCount = count;
+        this.counter = count;
+        this.emitCounterChange();
         if (count <= 0) {
             this.isReadyToRegister = true;
             this.emitReadyToRegisterChange();
@@ -133,6 +151,13 @@ const SessionStore = assign({}, EventEmitter.prototype, {
      */
     removeVoiceSampleRejectedChangeListener: function (callback) {
         this.removeListener(IS_VOICE_SAMPLE_REJECTED_CHANGE, callback);
+    },
+
+    /**
+     * @param {function} callback
+     */
+    removeCounterChangeListener: function (callback) {
+        this.removeListener(COUNTER_CHANGE, callback);
     },
 
     /**

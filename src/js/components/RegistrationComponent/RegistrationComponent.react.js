@@ -17,7 +17,8 @@ class RegistrationComponent extends React.PureComponent {
             voiceEntry: SessionStore.nextVoiceEntry,
             voiceRejected: SessionStore.isVoiceSampleRejected,
             readyToRegister: SessionStore.isReadyToRegister,
-            savedEmail: SessionStore.enteredEmail || ''
+            savedEmail: SessionStore.enteredEmail || '',
+            counter: SessionStore.counter
         };
     }
 
@@ -26,6 +27,7 @@ class RegistrationComponent extends React.PureComponent {
         SessionStore.addNextVoiceEntryChangeListener(this.setNextVoiceEntry);
         SessionStore.addReadyToRegisterChangeListener(this.setReadyToRegisterStatus);
         SessionStore.addVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
+        SessionStore.addCounterChangeListener(this.updateCounter);
         // SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
     }
 
@@ -47,17 +49,22 @@ class RegistrationComponent extends React.PureComponent {
         this.setState({voiceRejected: SessionStore.isVoiceSampleRejected});
     };
 
+    updateCounter = () => {
+        this.setState({counter: SessionStore.counter});
+    };
+
     componentWillUnmount() {
         SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
         SessionStore.removeNextVoiceEntryChangeListener(this.setNextVoiceEntry);
         SessionStore.removeReadyToRegisterChangeListener(this.setReadyToRegisterStatus);
         SessionStore.removeVoiceSampleRejectedChangeListener(this.forceUserToRecordAgain);
+        SessionStore.removeCounterChangeListener(this.updateCounter);
         // SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
     }
 
     register = (event) => {
         event.preventDefault();
-        alert('Congraturations! The winrar is you!');
+        browserHistory.push('/account');
     };
 
     onKeyDown = (event) => {
@@ -67,7 +74,7 @@ class RegistrationComponent extends React.PureComponent {
     };
 
     render() {
-        const {isEmailEmpty, savedEmail, voiceEntry, voiceRejected, readyToRegister} = this.state;
+        const {isEmailEmpty, savedEmail, voiceEntry, voiceRejected, readyToRegister, counter} = this.state;
         return (
             <div onKeyDown={this.onKeyDown}>
                 <form action="" onSubmit={this.register}>
@@ -88,7 +95,8 @@ class RegistrationComponent extends React.PureComponent {
                             Записать
                         </div>
                     </div>
-                    {voiceRejected ? <div className={styles.message}>Необходимо перезаписать</div> : null}
+                    {voiceRejected ? <div className={styles.errorMessage}>Необходимо перезаписать</div> : null}
+                    {counter ? <div className={styles.message}>Осталось записать {counter} сэмплов</div> : null}
                     <input
                         disabled={!readyToRegister}
                         type="submit"

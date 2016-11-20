@@ -23,7 +23,6 @@ const SessionActions = {
                      SessionStore.changeEmailStatus(false);
                      console.info('No such email, should register', response.data);
                  } else {
-                     SessionStore.changeEmailStatus(false); //заглушка
                      NotificationsStore.replaceNotification('Внутренняя ошибка сервера', 'error');
                      console.error('Error while checking email = ', response.data);
                  }

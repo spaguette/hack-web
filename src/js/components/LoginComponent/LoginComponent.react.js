@@ -77,7 +77,7 @@ class LoginComponent extends React.PureComponent {
                 <form action="" onSubmit={this.enterApp}>
                     <div>
                         <label htmlFor="login-email-input-field" className={styles.caption}><p>E-mail</p></label>
-                        <input id="login-email-input-field" type="email" ref="emailInput" required />
+                        <input id="login-email-input-field" type="email" ref="emailInput" defaultValue={SessionStore.enteredEmail} required />
                     </div>
                     <div className={formClassName}>
                         <div id="controls">

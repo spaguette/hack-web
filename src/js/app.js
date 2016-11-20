@@ -4,6 +4,7 @@ import {Router, Route, IndexRoute, browserHistory, Redirect} from 'react-router'
 import LoginComponent from './components/LoginComponent/LoginComponent.react.js';
 import RegistrationComponent from './components/RegistrationComponent/RegistrationComponent.react.js';
 import MainComponent from './components/MainComponent/MainComponent.react.js';
+import AccountComponent from './components/AccountComponent/AccountComponent.react.js';
 import axios from 'axios';
 
 /**
@@ -20,31 +21,31 @@ import axios from 'axios';
  * @return {void}
  * */
 function requireAuth(nextState, redirectTo, callback) {
-    axios.get('/api/session')
-        .then(function (response) {
-            setTimeout(() => {
-                console.info('User authorized, page rendered');
-                callback();
-            }, 0);
-        })
-        .catch(function (response) {
-            if (response instanceof Error) {
-                // Something happened in setting up the request that triggered an Error
-                console.error('Error', response.message);
-            } else {
-                // The request was made, but the server responded with a status code
-                // that falls out of the range of 2xx
-                if (response.status === 401) {
-                    console.error('User not authorized, please login');
-                } else if (response.status >= 500 && response.status <= 599) {
-                    console.error('Server Error!');
-                } else {
-                    console.error('Unhandled Error!');
-                }
-                redirectTo('/login');
-                callback();
-            }
-        });
+    axios.get('/api/Auth/session')
+         .then(function (response) {
+             setTimeout(() => {
+                 console.info('User authorized, page rendered');
+                 callback();
+             }, 0);
+         })
+         .catch(function (response) {
+             if (response instanceof Error) {
+                 // Something happened in setting up the request that triggered an Error
+                 console.error('Error', response.message);
+             } else {
+                 // The request was made, but the server responded with a status code
+                 // that falls out of the range of 2xx
+                 if (response.status === 401) {
+                     console.error('User not authorized, please login');
+                 } else if (response.status >= 500 && response.status <= 599) {
+                     console.error('Server Error!');
+                 } else {
+                     console.error('Unhandled Error!');
+                 }
+                 redirectTo('/login');
+                 callback();
+             }
+         });
 }
 
 const routes = (
@@ -53,6 +54,7 @@ const routes = (
         <Route path="/" component={MainComponent}>
             <Route path="/login" component={LoginComponent} />
             <Route path="/registration" component={RegistrationComponent} />
+            <Route path="/account" component={AccountComponent} onEnter={requireAuth} />
         </Route>
     </Router>
 );
