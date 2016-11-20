@@ -20,6 +20,20 @@ class RegistrationComponent extends React.PureComponent {
         };
     }
 
+    componentDidMount() {
+        SessionStore.addAudioSamplesChangeListener(this.sendAudioSample);
+    }
+
+    sendAudioSample = () => {
+        if (SessionStore.audioSamples !== null) {
+            SessionActions.registerAudioSample(this.refs.emailInput.refs.input.value, SessionStore.audioSamples);
+        }
+    };
+
+    componentWillUnmount() {
+        SessionStore.removeAudioSamplesChangeListener(this.sendAudioSample);
+    }
+
     validate = (name, event) => {
         const value = event.target.value;
         switch (name) {
@@ -36,7 +50,7 @@ class RegistrationComponent extends React.PureComponent {
 
     register = (event) => {
         event.preventDefault();
-        SessionActions.getYandexToken(this.refs.emailInput.refs.input.value);
+        SessionActions.registerAudioSample();
         // const loginValue = this.refs.emailInput.refs.input.value;
         // let isEmailEmpty = false;
         //

@@ -32,7 +32,8 @@ const SessionStore = assign({}, EventEmitter.prototype, {
 
     addBlob: function (msg, blob) {
         if (!this.audioSamples) { this.audioSamples = {}; }
-        this.audioSamples.msg = blob;
+        this.audioSamples.password = msg;
+        this.audioSamples.data = blob;
         this.emitAudioSamplesChange();
     },
 

@@ -151,7 +151,7 @@ gulp.task('webpack-dev-server', [
         publicPath: webpackDevConfig.output.publicPath,
         hot: true,
         historyApiFallback: true,
-        headers: {'X-Custom-Header': 'yes'},
+        headers: {'X-Custom-Header': 'yes', 'Access-Control-Allow-Origin': '*'},
         stats: {colors: true},
         watchOptions: {
             aggregateTimeout: 300,
@@ -160,7 +160,8 @@ gulp.task('webpack-dev-server', [
         proxy: {
             '/gelf': 'http://127.0.0.1:12201',
             '/api/*': 'http://127.0.0.1:50620',
-            '/oauth/*': 'http://money.yandex.ru'
+            // '/oauth/*': 'https://sp-money.yandex.ru',
+            '/authorize*': 'https://oauth.vk.com'
         }
     }).listen(webpackDevConfig.serverPort, webpackDevConfig.serverHost, function (err) {
         if (err) {

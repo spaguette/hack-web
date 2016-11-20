@@ -30,20 +30,25 @@ const SessionActions = {
              });
     },
 
+    //ПОПЫТКА СДЕЛАТЬ ПОЛУЧЕНИЕ ТОКЕНА ЯНДЕКС-КОШЕЛЬКА
     getYandexToken: (email) => {
-        axios.post('/oauth/authorize', {
-            client_id: 'E2F44FB969D77EB85A83D9AEDB4CE86B88079E2C72DDFAA513EEC0B9BF1B3968',
-            response_type: 'code',
-            redirect_uri: 'http://5.189.103.129:8001',
-            instance_name: email
-        })
-             .then((response) => {
-                 console.log('success');
-             })
-             .catch((response) => {
-                 //notify user about an error
-                 console.error('Error while receiving response = ', response.data);
-             });
+        // window.location = 'https://oauth.vk.com/authorize?client_id=5737607&display=page&response_type=token&redirect_uri=https://oauth.vk.com/blank.html&scope=2';
+        // window.location = 'https://sp-money.yandex.ru/oauth/authorize?client_id=57DCAFF3AC9CFEFEF4DA51501BCA28BD765C6F94B1D106225E51B2CBD276A2D5&response_type=code&redirect_uri=https://5.189.103.129:8001&scope=account_info';
+        // axios.get(`/oauth/authorize?client_id=57DCAFF3AC9CFEFEF4DA51501BCA28BD765C6F94B1D106225E51B2CBD276A2D5&response_type=code&redirect_uri=https://5.189.103.129:8001&scope=account_info`
+        // axios.get(`/oauth/authorize?client_id=57DCAFF3AC9CFEFEF4DA51501BCA28BD765C6F94B1D106225E51B2CBD276A2D5&response_type=code&scope=operation-history%20account-info&redirect_uri=http%3A%2F%2Fzenmoney.ru%2Fcallback%2Fyandex%2F%3Fconnection%3D128230`
+        // axios.get(`/authorize?client_id=5737607&display=page&response_type=token&redirect_uri=https://oauth.vk.com/blank.html&scope=2`
+        //     /* , {
+        //      headers: {
+        //      'content-type': 'application/x-www-form-urlencoded'
+        //      }
+        //      }*/)
+        //      .then((response) => {
+        //          console.log('success');
+        //      })
+        //      .catch((response) => {
+        //          //notify user about an error
+        //          console.error('Error while receiving response = ', response.data);
+        //      });
     },
 
     /**
@@ -55,6 +60,18 @@ const SessionActions = {
     writeBlob: (msg, blob) => {
         SessionStore.addBlob(msg, blob);
     },
+
+    registerAudioSample: (email, voiceSample) => {
+        axios.post('/api/Auth/addVoiceModel', {email: email, voiceSample: voiceSample})
+             .then((response) => {
+                 browserHistory.push('/reservation');
+             })
+             .catch((response) => {
+                 //notify user about an error
+                 console.error('Error while receiving response = ', response.data);
+             });
+    },
+
     /**
      * @function logIn
      * @param {Object} authInfo
