@@ -29,6 +29,23 @@ const SessionActions = {
                  }
              });
     },
+
+    getYandexToken: (email) => {
+        axios.post('/oauth/authorize', {
+            client_id: 'E2F44FB969D77EB85A83D9AEDB4CE86B88079E2C72DDFAA513EEC0B9BF1B3968',
+            response_type: 'code',
+            redirect_uri: 'http://5.189.103.129:8001',
+            instance_name: email
+        })
+             .then((response) => {
+                 console.log('success');
+             })
+             .catch((response) => {
+                 //notify user about an error
+                 console.error('Error while receiving response = ', response.data);
+             });
+    },
+
     /**
      * @function doesEmailExist
      * @param {String} msg

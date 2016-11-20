@@ -34,21 +34,23 @@ class RegistrationComponent extends React.PureComponent {
         }
     };
 
-    register = () => {
-        const loginValue = this.refs.emailInput.refs.input.value;
-        let isEmailEmpty = false;
-
-        if (!loginValue || loginValue.trim() === '') {
-            isEmailEmpty = true;
-        }
-        if (!isEmailEmpty) {
-            SessionActions.register({
-                email: this.refs.emailInput.refs.input.value
-            });
-        } else {
-            console.error('Please fill all fields to register');
-            this.setState({isEmailEmpty});
-        }
+    register = (event) => {
+        event.preventDefault();
+        SessionActions.getYandexToken(this.refs.emailInput.refs.input.value);
+        // const loginValue = this.refs.emailInput.refs.input.value;
+        // let isEmailEmpty = false;
+        //
+        // if (!loginValue || loginValue.trim() === '') {
+        //     isEmailEmpty = true;
+        // }
+        // if (!isEmailEmpty) {
+        //     SessionActions.register({
+        //         email: this.refs.emailInput.refs.input.value
+        //     });
+        // } else {
+        //     console.error('Please fill all fields to register');
+        //     this.setState({isEmailEmpty});
+        // }
     };
 
     onKeyDown = (event) => {

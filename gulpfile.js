@@ -159,7 +159,8 @@ gulp.task('webpack-dev-server', [
         },
         proxy: {
             '/gelf': 'http://127.0.0.1:12201',
-            '/api/*': 'http://127.0.0.1:50620'
+            '/api/*': 'http://127.0.0.1:50620',
+            '/oauth/*': 'http://money.yandex.ru'
         }
     }).listen(webpackDevConfig.serverPort, webpackDevConfig.serverHost, function (err) {
         if (err) {
